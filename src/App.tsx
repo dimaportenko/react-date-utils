@@ -1,23 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import moment from 'moment-timezone';
+import {DatePicker} from 'antd';
 import './App.css';
+import 'antd/dist/antd.css';
+
+const timezone = 'US/Central';
 
 function App() {
+  const [date, setDate] = useState(new Date());
+  const [str, setStr] = useState('');
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>{`Timezone: ${timezone}`}</p>
+        <div>
+          <DatePicker
+            placeholder="select date"
+            onChange={(value, dateString) => {
+              setDate(new Date(dateString));
+              setStr(moment.tz(dateString, timezone).toDate().getTime().toString());
+            }}
+          />
+        </div>
+        <p>Local: {date.getTime()}</p>
+        <p>{timezone}: {str}</p>
       </header>
     </div>
   );
